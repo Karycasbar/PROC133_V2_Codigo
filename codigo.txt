@@ -1,0 +1,49 @@
+temp_suitable_planets = list(suitable_planets)
+for planet_data in temp_suitable_planets:
+  if planet_data[8].lower() == "unknown":
+    suitable_planets.remove(planet_data)
+---------------------------------------------------------------------
+
+for planet_data in suitable_planets:
+  if planet_data[9].split(" ")[1].lower() == "days":
+    planet_data[9] = float(planet_data[9].split(" ")[0]) #Días
+  else:
+    planet_data[9] = float(planet_data[9].split(" ")[0])*365 #Convertir años en días
+  
+  planet_data[8] = float(planet_data[8].split(" ")[0])
+--------------------------------------------------------------------------------------------
+orbital_radiuses = []
+orbital_periods = []
+for planet_data in suitable_planets:
+  orbital_radiuses.append(planet_data[8])
+  orbital_periods.append(planet_data[9])
+
+fig = px.scatter(x=orbital_radiuses, y=orbital_periods)
+fig.show()
+------------------------------------------------------------------------------------------------------
+goldilock_planets = list(suitable_planets) #Dejaremos la lista de planetas adecuados tal como está
+
+temp_goldilock_planets = list(suitable_planets) 
+for planet_data in temp_goldilock_planets:
+  if planet_data[8] < 0.38 or planet_data[8] > 2:
+    goldilock_planets.remove(planet_data)
+
+print(len(suitable_planets))
+print(len(goldilock_planets))
+-----------------------------------------------------------------------------------------------------------
+planet_speeds = []
+for planet_data in suitable_planets:
+  distance = 2 * 3.14 * (planet_data[8] * 1.496e+8)
+  time = planet_data[9] * 86400
+  speed = distance / time
+  planet_speeds.append(speed)
+----------------------------------------------------------------------------------
+#Dejaremos la lista de planetas adecuados tal como está
+speed_supporting_planets = list(suitable_planets) 
+
+temp_speed_supporting_planets = list(suitable_planets)
+for index, planet_data in enumerate(temp_speed_supporting_planets):
+  if planet_speeds[index] > 200:
+    speed_supporting_planets.remove(planet_data)
+
+print(len(speed_supporting_planets))
